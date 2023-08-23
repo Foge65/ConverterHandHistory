@@ -60,11 +60,11 @@ public class Controller implements Initializable {
             } else {
                 for (File file : fileList) {
                     fileManager.mkdirOutput(selectedDirectory);
-                    List<String> list = fileManager.read(file);
-                    textOperator.replaceNickname(list, textSetNickname.getText());
-                    textOperator.replaceWordWon(list);
-                    textOperator.deleteStringDealt(list);
-                    fileManager.write(list, file);
+                    List<String> stringList = fileManager.read(file);
+                    textOperator.replaceNickname(stringList, textSetNickname.getText());
+                    textOperator.replaceWordWon(stringList);
+                    textOperator.deleteStringDealt(stringList);
+                    fileManager.write(stringList, file);
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
                 completeOperation.setTitle("Complete");

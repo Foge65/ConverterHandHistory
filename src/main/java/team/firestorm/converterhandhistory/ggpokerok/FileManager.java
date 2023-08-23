@@ -49,10 +49,14 @@ public class FileManager {
     }
 
     public void write(List<String> list, File file) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (String line : list) {
-                writer.write(line);
-                writer.newLine();
+        try {
+            File outputDirectory = new File(file.getParentFile(), "Converted");
+            File outputFile = new File(outputDirectory, file.getName());
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+                for (String line : list) {
+                    writer.write(line);
+                    writer.newLine();
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
