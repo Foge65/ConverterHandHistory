@@ -2,6 +2,7 @@ package team.firestorm.converterhandhistory;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -51,12 +52,20 @@ public class Controller implements Initializable {
             TextOperator textOperator = new TextOperator();
             fileList.clear();
             fileList = fileManager.getFilesFromDirectory(selectedDirectory);
-            for (File file : fileList) {
-                List<String> list = fileManager.read(file);
-                textOperator.replaceNickname(list, textSetNickname.getText());
-                textOperator.replaceWordWon(list);
-                textOperator.deleteStringDealt(list);
-                fileManager.write(list, file);
+            if (textSetNickname.getText() == "") {
+                Alert setNickname = new Alert(Alert.AlertType.INFORMATION);
+                setNickname.setTitle("Invalid nickname");
+                setNickname.setHeaderText(null);
+                setNickname.setContentText("Please, enter nickname for replacement!");
+                setNickname.showAndWait();
+            } else {
+                for (File file : fileList) {
+                    List<String> list = fileManager.read(file);
+                    textOperator.replaceNickname(list, textSetNickname.getText());
+                    textOperator.replaceWordWon(list);
+                    textOperator.deleteStringDealt(list);
+                    fileManager.write(list, file);
+                }
             }
         });
     }
