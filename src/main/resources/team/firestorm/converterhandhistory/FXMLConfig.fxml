@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="205.0" minWidth="480.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="team.firestorm.converterhandhistory.Controller">
+   <children>
+      <Button fx:id="btnConvert" layoutX="53.0" layoutY="100.0" mnemonicParsing="false" prefWidth="120.0" text="Convert Hands" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="65.0">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TextField fx:id="textPath" prefHeight="25.0" prefWidth="295.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Button fx:id="btnOpenFile" mnemonicParsing="false" prefWidth="120.0" text="Open Directory" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TextField fx:id="textSetNickname" prefWidth="295.0" promptText="Please, enter nickname" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="65.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Label lineSpacing="4.0" text="Разработка команды Team Firestorm." AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="105.0" />
+      <Label text="На рынке покера с 2013 года, с более чем 2000+ успешных сотрудничеств." AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="120.0" />
+      <Label text="Бесплатное обучение и бэкинг покер игроков в MTT SPIN&amp;GO CASH." AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="135.0" />
+      <Label text="www.team-firestorm.ru" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="150.0" />
+      <Label text="www.firestorm.team" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="165.0" />
+      <Label text="(с) Все права защищены 2023" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="180.0" />
+   </children>
+</AnchorPane>
