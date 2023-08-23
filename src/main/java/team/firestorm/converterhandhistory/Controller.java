@@ -66,6 +66,11 @@ public class Controller implements Initializable {
                     textOperator.deleteStringDealt(list);
                     fileManager.write(list, file);
                 }
+                Alert completeConvertation = new Alert(Alert.AlertType.INFORMATION);
+                completeConvertation.setTitle("Complete");
+                completeConvertation.setHeaderText(null);
+                completeConvertation.setContentText("Complete");
+                completeConvertation.showAndWait();
             }
         });
     }
