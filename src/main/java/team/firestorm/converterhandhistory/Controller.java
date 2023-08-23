@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import team.firestorm.converterhandhistory.ggpokerok.FileManager;
+import team.firestorm.converterhandhistory.ggpokerok.Roman;
 import team.firestorm.converterhandhistory.ggpokerok.TextOperator;
 
 import java.io.File;
@@ -63,6 +64,7 @@ public class Controller implements Initializable {
                     List<String> stringList = fileManager.read(file);
                     textOperator.replaceNickname(stringList, textSetNickname.getText());
                     textOperator.replaceWordWon(stringList);
+                    Roman.replaceNumber(stringList);
                     textOperator.deleteStringDealt(stringList);
                     fileManager.write(stringList, file);
                 }
