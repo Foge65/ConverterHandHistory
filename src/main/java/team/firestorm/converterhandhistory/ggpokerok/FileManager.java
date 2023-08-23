@@ -7,19 +7,19 @@ import java.util.List;
 public class FileManager {
     public List<File> getFilesFromDirectory(File directory) {
         List<File> fileList = new ArrayList<>();
-        addFilesToList(directory, fileList);
-        return fileList;
-    }
-
-    public void addFilesToList(File directory, List<File> fileList) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    fileList.add(file);
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        fileList.add(file);
+                    } else if (file.isDirectory()) {
+                        fileList.addAll(getFilesFromDirectory(file));
+                    }
                 }
             }
         }
+        return fileList;
     }
 
     public void mkdirOutput(File selectedDirectory) {
