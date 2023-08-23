@@ -36,7 +36,6 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         textSetNickname.textProperty().addListener((observable, oldValue, newValue) -> {
         });
-
         btnOpenFile.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("FireStorm Team Hand History Converter");
@@ -60,17 +59,18 @@ public class Controller implements Initializable {
                 setNickname.showAndWait();
             } else {
                 for (File file : fileList) {
+                    fileManager.mkdirOutput(selectedDirectory);
                     List<String> list = fileManager.read(file);
                     textOperator.replaceNickname(list, textSetNickname.getText());
                     textOperator.replaceWordWon(list);
                     textOperator.deleteStringDealt(list);
                     fileManager.write(list, file);
                 }
-                Alert completeConvertation = new Alert(Alert.AlertType.INFORMATION);
-                completeConvertation.setTitle("Complete");
-                completeConvertation.setHeaderText(null);
-                completeConvertation.setContentText("Complete");
-                completeConvertation.showAndWait();
+                Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
+                completeOperation.setTitle("Complete");
+                completeOperation.setHeaderText(null);
+                completeOperation.setContentText("Complete");
+                completeOperation.showAndWait();
             }
         });
     }

@@ -22,6 +22,13 @@ public class FileManager {
         }
     }
 
+    public void mkdirOutput(File selectedDirectory) {
+        File mkdir = new File(selectedDirectory.getAbsolutePath() + "\\Converted");
+        if (!mkdir.exists()) {
+            mkdir.mkdir();
+        }
+    }
+
     public List<String> read(File file) {
         List<String> lines = new ArrayList<>();
         BufferedReader reader;
