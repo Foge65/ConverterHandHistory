@@ -11,7 +11,7 @@ public class FileManager {
             File[] files = directory.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    if (file.isFile()) {
+                    if (file.isFile() && file.getName().endsWith(".txt")) {
                         fileList.add(file);
                     } else if (file.isDirectory()) {
                         fileList.addAll(getFilesFromDirectory(file));
