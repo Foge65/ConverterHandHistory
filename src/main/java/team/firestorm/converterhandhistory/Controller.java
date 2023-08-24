@@ -60,10 +60,10 @@ public class Controller implements Initializable {
                 fileList = fileManager.getFilesFromDirectory(selectedDirectory);
                 for (File file : fileList) {
                     List<String> stringList = fileManager.read(file);
-                    textOperator.replaceNickname(stringList, textSetNickname.getText());
                     textOperator.replaceWordWon(stringList);
                     Roman.replaceNumber(stringList);
                     textOperator.deleteStringDealt(stringList);
+                    textOperator.replaceNickname(stringList, textSetNickname.getText());
                     fileManager.write(stringList, file, selectedDirectory);
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
