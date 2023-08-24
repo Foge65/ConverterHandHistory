@@ -43,15 +43,12 @@ public class Controller implements Initializable {
             selectedDirectory = directoryChooser.showDialog(new Stage());
             if (selectedDirectory != null) {
                 textPath.setText(selectedDirectory.getPath());
-                fileList = fileManager.getFilesFromDirectory(selectedDirectory);
             }
         });
 
         btnConvert.setOnAction(event -> {
             FileManager fileManager = new FileManager();
             TextOperator textOperator = new TextOperator();
-            fileList.clear();
-            fileList = fileManager.getFilesFromDirectory(selectedDirectory);
             if (textSetNickname.getText() == "") {
                 Alert setNickname = new Alert(Alert.AlertType.INFORMATION);
                 setNickname.setTitle("Invalid nickname");
@@ -59,6 +56,8 @@ public class Controller implements Initializable {
                 setNickname.setContentText("Please, enter nickname for replacement!");
                 setNickname.showAndWait();
             } else {
+                fileList.clear();
+                fileList = fileManager.getFilesFromDirectory(selectedDirectory);
                 for (File file : fileList) {
                     fileManager.mkdirOutput(selectedDirectory);
                     List<String> stringList = fileManager.read(file);

@@ -1,23 +1,19 @@
 package team.firestorm.converterhandhistory.ggpokerok;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
     public List<File> getFilesFromDirectory(File directory) {
         List<File> fileList = new ArrayList<>();
-        if (directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile() && file.getName().endsWith(".txt")) {
-                        fileList.add(file);
-                    } else if (file.isDirectory()) {
-                        fileList.addAll(getFilesFromDirectory(file));
-                    }
-                }
-            }
+        try {
+            Files.find(Paths.get(directory.toURI()), Integer.MAX_VALUE, (filePath, fileAttr) -> fileAttr.isRegularFile())
+                    .forEach(filePath -> fileList.add(filePath.toFile()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return fileList;
     }
