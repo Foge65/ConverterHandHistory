@@ -59,7 +59,6 @@ public class Controller implements Initializable {
                 fileList.clear();
                 fileList = fileManager.getFilesFromDirectory(selectedDirectory);
                 for (File file : fileList) {
-//                    fileManager.mkdirOutput(selectedDirectory);
                     List<String> stringList = fileManager.read(file);
                     textOperator.replaceNickname(stringList, textSetNickname.getText());
                     textOperator.replaceWordWon(stringList);
