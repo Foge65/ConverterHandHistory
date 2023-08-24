@@ -2,6 +2,7 @@ package team.firestorm.converterhandhistory.ggpokerok;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +11,13 @@ public class FileManager {
     public List<File> getFilesFromDirectory(File directory) {
         List<File> fileList = new ArrayList<>();
         try {
-            Files.find(Paths.get(directory.toURI()), Integer.MAX_VALUE, (filePath, fileAttr) -> fileAttr.isRegularFile())
+            Files.find(Paths.get(directory.toURI()), Integer.MAX_VALUE,
+                            (filePath, fileAttr) -> fileAttr.isRegularFile() && filePath.toString().toLowerCase().endsWith(".txt"))
                     .forEach(filePath -> fileList.add(filePath.toFile()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return fileList;
-    }
-
-    public void mkdirOutput(File selectedDirectory) {
-        File mkdir = new File(selectedDirectory.getAbsolutePath() + "\\Converted");
-        if (!mkdir.exists()) {
-            mkdir.mkdir();
-        }
     }
 
     public List<String> read(File file) {
@@ -44,10 +39,21 @@ public class FileManager {
         return lines;
     }
 
-    public void write(List<String> list, File file) {
+    public void write(List<String> list, File originalFile, File rootDirectory) {
         try {
-            File outputDirectory = new File(file.getParentFile(), "Converted");
-            File outputFile = new File(outputDirectory, file.getName());
+            File convertedDirectory = new File(rootDirectory, "Converted");
+            if (!convertedDirectory.exists() && !convertedDirectory.mkdir()) {
+                throw new IOException("Failed to create 'Converted' directory");
+            }
+
+            String relativePath = getRelativePath(originalFile, rootDirectory);
+
+            File outputDirectory = new File(convertedDirectory, relativePath);
+            if (!outputDirectory.exists() && !outputDirectory.mkdirs()) {
+                throw new IOException("Failed to create output directory");
+            }
+
+            File outputFile = new File(outputDirectory, originalFile.getName());
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
                 for (String line : list) {
                     writer.write(line);
@@ -57,6 +63,12 @@ public class FileManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getRelativePath(File file, File rootDirectory) {
+        Path rootPath = rootDirectory.toPath();
+        Path filePath = file.toPath();
+        return rootPath.relativize(filePath.getParent()).toString();
     }
 
 }

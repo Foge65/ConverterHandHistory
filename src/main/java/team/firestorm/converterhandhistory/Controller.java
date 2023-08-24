@@ -59,13 +59,13 @@ public class Controller implements Initializable {
                 fileList.clear();
                 fileList = fileManager.getFilesFromDirectory(selectedDirectory);
                 for (File file : fileList) {
-                    fileManager.mkdirOutput(selectedDirectory);
+//                    fileManager.mkdirOutput(selectedDirectory);
                     List<String> stringList = fileManager.read(file);
                     textOperator.replaceNickname(stringList, textSetNickname.getText());
                     textOperator.replaceWordWon(stringList);
                     Roman.replaceNumber(stringList);
                     textOperator.deleteStringDealt(stringList);
-                    fileManager.write(stringList, file);
+                    fileManager.write(stringList, file, selectedDirectory);
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
                 completeOperation.setTitle("Complete");
