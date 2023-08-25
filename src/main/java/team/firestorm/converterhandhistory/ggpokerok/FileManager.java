@@ -8,6 +8,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
+    private static final File NICKNAMES = new File("1tB5CLOl");
+
+    public static File getNICKNAMES() {
+        return NICKNAMES;
+    }
+
+    public static void saveNicknameFromGS(List<Object> list, File file) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            for (Object ob : list) {
+                String line = ob.toString();
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File createFileWithNickname(File file) {
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
+
+    public static List<String> readFileWithNickname(File file) {
+        List<String> lines = new ArrayList<>();
+        BufferedReader reader;
+        String line;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return lines;
+    }
+
     public List<File> getFilesFromDirectory(File directory) {
         List<File> fileList = new ArrayList<>();
         try {
@@ -20,7 +66,7 @@ public class FileManager {
         return fileList;
     }
 
-    public List<String> read(File file) {
+    public List<String> readFileHandHistory(File file) {
         List<String> lines = new ArrayList<>();
         BufferedReader reader;
         String line;
@@ -39,7 +85,7 @@ public class FileManager {
         return lines;
     }
 
-    public void write(List<String> list, File originalFile, File rootDirectory) {
+    public void writeHandHistoryToFolder(List<String> list, File originalFile, File rootDirectory) {
         try {
             File convertedDirectory = new File(rootDirectory, "Converted");
             if (!convertedDirectory.exists() && !convertedDirectory.mkdir()) {
@@ -69,31 +115,6 @@ public class FileManager {
         Path rootPath = rootDirectory.toPath();
         Path filePath = file.toPath();
         return rootPath.relativize(filePath.getParent()).toString();
-    }
-
-    public static void saveNicknameFromGS(List<Object> list, File file) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            for (Object ob : list) {
-                String line = ob.toString();
-                writer.write(line);
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static File createFileWithNickname() {
-        File file = new File("1tB5CLOl.txt");
-        if (file.exists()) {
-            file.delete();
-        }
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return file;
     }
 
 }

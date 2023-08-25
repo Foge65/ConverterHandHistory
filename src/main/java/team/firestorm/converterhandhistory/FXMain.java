@@ -5,10 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import team.firestorm.converterhandhistory.ggpokerok.FileManager;
 import team.firestorm.converterhandhistory.googlesheets.GSheetsService;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.List;
 
 public class FXMain extends Application {
     public static void main(String[] args) {

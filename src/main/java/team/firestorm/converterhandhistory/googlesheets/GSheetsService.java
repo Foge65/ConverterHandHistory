@@ -49,7 +49,7 @@ public class GSheetsService {
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
         } else {
-            File file = FileManager.createFileWithNickname();
+            File file = FileManager.createFileWithNickname(FileManager.getNICKNAMES());
             for (List row : values) {
                 FileManager.saveNicknameFromGS(row, file);
             }

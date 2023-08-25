@@ -1,9 +1,12 @@
 package team.firestorm.converterhandhistory;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -27,6 +30,13 @@ public class Controller implements Initializable {
     @FXML
     private TextField textSetNickname = new TextField();
 
+    private ObservableList<String> observableListNickname = FXCollections.observableArrayList(
+            FileManager.readFileWithNickname(FileManager.getNICKNAMES()));
+
+    @FXML
+    private ComboBox<String> boxListNickname = new ComboBox<>(observableListNickname);
+
+
     private List<File> fileList = new ArrayList<>();
 
     private FileManager fileManager = new FileManager();
@@ -35,8 +45,6 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        textSetNickname.textProperty().addListener((observable, oldValue, newValue) -> {
-        });
         btnOpenFile.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("FireStorm Team Hand History Converter");
@@ -59,18 +67,27 @@ public class Controller implements Initializable {
                 fileList.clear();
                 fileList = fileManager.getFilesFromDirectory(selectedDirectory);
                 for (File file : fileList) {
-                    List<String> stringList = fileManager.read(file);
+                    List<String> stringList = fileManager.readFileHandHistory(file);
                     textOperator.replaceWordWon(stringList);
                     Roman.replaceNumber(stringList);
                     textOperator.deleteStringDealt(stringList);
                     textOperator.replaceNickname(stringList, textSetNickname.getText());
-                    fileManager.write(stringList, file, selectedDirectory);
+                    fileManager.writeHandHistoryToFolder(stringList, file, selectedDirectory);
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
                 completeOperation.setTitle("Complete");
                 completeOperation.setHeaderText(null);
                 completeOperation.setContentText("Complete");
                 completeOperation.showAndWait();
+            }
+        });
+
+        boxListNickname.setItems(observableListNickname);
+        boxListNickname.setEditable(true);
+        boxListNickname.setOnAction(event -> {
+            String selectedValue = boxListNickname.getSelectionModel().getSelectedItem();
+            if (selectedValue != null) {
+                textSetNickname.setText(selectedValue);
             }
         });
     }
