@@ -71,4 +71,29 @@ public class FileManager {
         return rootPath.relativize(filePath.getParent()).toString();
     }
 
+    public static void saveNicknameFromGS(List<Object> list, File file) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            for (Object ob : list) {
+                String line = ob.toString();
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File createFileWithNickname() {
+        File file = new File("1tB5CLOl.txt");
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
+    }
+
 }
