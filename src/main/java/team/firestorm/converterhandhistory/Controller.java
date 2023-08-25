@@ -2,12 +2,14 @@ package team.firestorm.converterhandhistory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import team.firestorm.converterhandhistory.ggpokerok.FileManager;
@@ -36,6 +38,7 @@ public class Controller implements Initializable {
     @FXML
     private ComboBox<String> boxListNickname = new ComboBox<>(observableListNickname);
 
+    private FilteredList<String> filteredList = new FilteredList<>(observableListNickname);
 
     private List<File> fileList = new ArrayList<>();
 
@@ -45,6 +48,18 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        boxListNickname.setItems(observableListNickname);
+
+        boxListNickname.getEditor().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+            String filter = boxListNickname.getEditor().getText();
+            filterComboBoxItems(boxListNickname, filter);
+        });
+
+        boxListNickname.getEditor().setOnMouseClicked(event -> {
+            boxListNickname.getEditor().setText("");
+            filterComboBoxItems(boxListNickname, "");
+        });
+
         btnOpenFile.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("FireStorm Team Hand History Converter");
@@ -82,13 +97,20 @@ public class Controller implements Initializable {
             }
         });
 
-        boxListNickname.setItems(observableListNickname);
-        boxListNickname.setEditable(true);
-        boxListNickname.setOnAction(event -> {
-            String selectedValue = boxListNickname.getSelectionModel().getSelectedItem();
-            if (selectedValue != null) {
-                textSetNickname.setText(selectedValue);
-            }
-        });
     }
+
+    private void filterComboBoxItems(ComboBox<String> comboBox, String filter) {
+        ObservableList<String> filteredItems = FXCollections.observableArrayList();
+
+        for (String item : observableListNickname) {
+            if (item.toLowerCase().contains(filter.toLowerCase())) {
+                filteredItems.add(item);
+            }
+        }
+        comboBox.setItems(filteredItems);
+        if (!comboBox.isShowing()) {
+            comboBox.show();
+        }
+    }
+
 }
