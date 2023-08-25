@@ -29,8 +29,6 @@ public class Controller implements Initializable {
     private Button btnConvert;
     @FXML
     private TextField textPath = new TextField();
-    @FXML
-    private TextField textSetNickname = new TextField();
 
     private ObservableList<String> observableListNickname = FXCollections.observableArrayList(
             FileManager.readFileWithNickname(FileManager.getNICKNAMES()));
@@ -72,7 +70,7 @@ public class Controller implements Initializable {
         btnConvert.setOnAction(event -> {
             FileManager fileManager = new FileManager();
             TextOperator textOperator = new TextOperator();
-            if (textSetNickname.getText() == "") {
+            if (boxListNickname.getEditor().getText() == "") {
                 Alert setNickname = new Alert(Alert.AlertType.INFORMATION);
                 setNickname.setTitle("Invalid nickname");
                 setNickname.setHeaderText(null);
@@ -86,7 +84,7 @@ public class Controller implements Initializable {
                     textOperator.replaceWordWon(stringList);
                     Roman.replaceNumber(stringList);
                     textOperator.deleteStringDealt(stringList);
-                    textOperator.replaceNickname(stringList, textSetNickname.getText());
+                    textOperator.replaceNickname(stringList, boxListNickname.getEditor().getText());
                     fileManager.writeHandHistoryToFolder(stringList, file, selectedDirectory);
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
