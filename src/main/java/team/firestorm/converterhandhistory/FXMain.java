@@ -10,16 +10,32 @@ import team.firestorm.converterhandhistory.googlesheets.GSheetsService;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FXMain extends Application {
+    static Map<String, String> nicknameMap = new HashMap<>();
+
+    public static Map<String, String> getMap() {
+        return nicknameMap;
+    }
+
     public static void main(String[] args) {
         launch();
     }
 
     @Override
-    public void start(Stage stage) throws IOException, GeneralSecurityException {
-        GSheetsService.getNicknames();
+    public void start(Stage stage) throws GeneralSecurityException, IOException {
+        GSheetsService sheetsService = new GSheetsService();
+        List<List<Object>> objectList = sheetsService.getData();
+        nicknameMap = sheetsService.createMap(objectList);
+
+        FileManager fileManager = new FileManager();
+        fileManager.getNicknameConference(nicknameMap);
+
+//        File file = fileManager.createFile();
+//        fileManager.saveMapToFile(nicknameMap, file);
 
         FXMLLoader fxmlLoader = new FXMLLoader(FXMain.class.getResource("FXMLConfig.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

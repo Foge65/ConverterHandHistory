@@ -19,9 +19,7 @@ import team.firestorm.converterhandhistory.ggpokerok.TextOperator;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.prefs.Preferences;
 
 public class Controller implements Initializable {
@@ -32,8 +30,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField textPath = new TextField();
 
-    private ObservableList<String> observableListNickname = FXCollections.observableArrayList(
-            FileManager.readFileWithNickname(FileManager.getNicknames()));
+    private ObservableList<String> observableListNickname = FXCollections.observableArrayList(FileManager.getConferenceName());
 
     @FXML
     private ComboBox<String> boxListNickname = new ComboBox<>(observableListNickname);
@@ -94,13 +91,24 @@ public class Controller implements Initializable {
             } else {
                 fileList.clear();
                 fileList = fileManager.getFilesFromDirectory(selectedDirectory);
+                Map<String, String> mapNicknames = FXMain.getMap();
+                String selectedConference = boxListNickname.getEditor().getText();
+                String nicknameGGPokerOK = null;
+                for (Map.Entry<String, String> entry : mapNicknames.entrySet()) {
+                    String k = entry.getKey();
+                    String v = entry.getValue();
+                    if (selectedConference.equals(k)) {
+                        nicknameGGPokerOK = v;
+                        break;
+                    }
+                }
                 for (File file : fileList) {
                     List<String> stringList = fileManager.readFileHandHistory(file);
                     textOperator.replaceWordWon(stringList);
                     Roman.replaceNumber(stringList);
                     textOperator.deleteStringDealt(stringList);
-                    textOperator.replaceNickname(stringList, boxListNickname.getEditor().getText());
-                    fileManager.writeHandHistoryToFolder(stringList, file, selectedDirectory);
+                    textOperator.replaceNickname(stringList, nicknameGGPokerOK);
+                    fileManager.write(stringList, file, selectedDirectory);
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
                 completeOperation.setTitle("Complete");
