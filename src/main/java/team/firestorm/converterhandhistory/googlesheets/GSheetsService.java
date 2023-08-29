@@ -18,7 +18,9 @@ import team.firestorm.converterhandhistory.ggpokerok.FileManager;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GSheetsService {
     public static final String APPLICATION = "HandHistoryConverter";
@@ -42,17 +44,32 @@ public class GSheetsService {
     public static void getNicknames() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String sheetId = "1tB5CLOlx1vmyIB6pT3IgYe-qvnrIjq0BsQYsdgXkTZ4";
-        final String range = "AllData!J2:J";
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, GSheetsService.JSON_FACTORY, GSheetsService.getCredential(HTTP_TRANSPORT)).setApplicationName(GSheetsService.APPLICATION).build();
+        final String range = "GGnetwork!A2:E";
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, GSheetsService.JSON_FACTORY,
+                GSheetsService.getCredential(HTTP_TRANSPORT)).setApplicationName(GSheetsService.APPLICATION).build();
         ValueRange response = service.spreadsheets().values().get(sheetId, range).execute();
         List<List<Object>> values = response.getValues();
         if (values == null || values.isEmpty()) {
             System.out.println("No data found.");
         } else {
-            File file = FileManager.createFileWithNickname(FileManager.getNICKNAMES());
-            for (List row : values) {
-                FileManager.saveNicknameFromGS(row, file);
+            File file = FileManager.createFileWithNickname(FileManager.getNicknames());
+            Map<String, String> nicknames = buildMap(values);
+            FileManager.saveNicknamesFromMap(nicknames, file);
+        }
+    }
+
+    public static Map<String, String> buildMap(List<List<Object>> objects) {
+        Map<String, String> map = new HashMap<>();
+        for (List row : objects) {
+            if (row.size() >= 5) {
+                String nickConference = row.get(0).toString();
+                Object nickGG = row.get(4);
+                if (nickGG != null) {
+                    String value = nickGG.toString();
+                    map.put(nickConference, value);
+                }
             }
         }
+        return map;
     }
 }

@@ -6,19 +6,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FileManager {
     private static final File NICKNAMES = new File("1tB5CLOl");
 
-    public static File getNICKNAMES() {
+    public static File getNicknames() {
         return NICKNAMES;
     }
 
-    public static void saveNicknameFromGS(List<Object> list, File file) {
+    public static void saveNicknamesFromMap(Map<String, String> nicknamesGG, File file) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            for (Object ob : list) {
-                String line = ob.toString();
-                writer.write(line);
+            for (Map.Entry<String, String> entry : nicknamesGG.entrySet()) {
+                String nick = entry.getValue();
+                writer.write(nick);
                 writer.newLine();
             }
         } catch (IOException e) {

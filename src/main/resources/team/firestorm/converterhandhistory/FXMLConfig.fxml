@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="210.0" minWidth="480.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="team.firestorm.converterhandhistory.Controller">
+<AnchorPane minHeight="180.0" minWidth="480.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="team.firestorm.converterhandhistory.Controller">
    <children>
       <Button fx:id="btnConvert" layoutX="53.0" layoutY="100.0" mnemonicParsing="false" prefWidth="120.0" text="Convert Hands" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="65.0">
          <font>
@@ -22,11 +22,9 @@
             <Font size="14.0" />
          </font></Button>
       <Label layoutX="25.0" layoutY="107.0" lineSpacing="4.0" text="Разработка команды Team Firestorm." AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="107.0" />
-      <Label layoutX="25.0" layoutY="122.0" text="На рынке покера с 2013 года, с более чем 2000+ успешных сотрудничеств." AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="122.0" />
-      <Label layoutX="25.0" layoutY="137.0" text="Бесплатное обучение и бэкинг покер игроков в MTT SPIN&amp;GO CASH." AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="137.0" />
-      <Label layoutX="25.0" layoutY="152.0" text="www.team-firestorm.ru" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="152.0" />
-      <Label layoutX="25.0" layoutY="167.0" text="www.firestorm.team" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="167.0" />
-      <Label layoutX="25.0" layoutY="182.0" text="(с) Все права защищены 2023" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="182.0" />
+      <Label layoutX="25.0" layoutY="124.0" text="www.team-firestorm.ru" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="124.0" />
+      <Label layoutX="25.0" layoutY="139.0" text="www.firestorm.team" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="139.0" />
+      <Label layoutX="25.0" layoutY="154.0" text="(с) Все права защищены 2023" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="154.0" />
       <ComboBox fx:id="boxListNickname" editable="true" prefHeight="30.0" prefWidth="295.0" promptText="Please, select nickname" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="65.0" />
    </children>
 </AnchorPane>

@@ -2,7 +2,6 @@ package team.firestorm.converterhandhistory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -31,16 +30,12 @@ public class Controller implements Initializable {
     private TextField textPath = new TextField();
 
     private ObservableList<String> observableListNickname = FXCollections.observableArrayList(
-            FileManager.readFileWithNickname(FileManager.getNICKNAMES()));
+            FileManager.readFileWithNickname(FileManager.getNicknames()));
 
     @FXML
     private ComboBox<String> boxListNickname = new ComboBox<>(observableListNickname);
 
-    private FilteredList<String> filteredList = new FilteredList<>(observableListNickname);
-
     private List<File> fileList = new ArrayList<>();
-
-    private FileManager fileManager = new FileManager();
 
     private File selectedDirectory;
 
