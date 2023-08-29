@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class Controller implements Initializable {
     @FXML
@@ -55,10 +56,18 @@ public class Controller implements Initializable {
 
         btnOpenFile.setOnAction(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle("FireStorm Team Hand History Converter");
+            directoryChooser.setTitle("Please, select a folder");
+            Preferences preferences = Preferences.userNodeForPackage(getClass());
+            String lastDirectory = preferences.get("lastDirectory", System.getProperty("user.home"));
+            File initialDirectory = new File(lastDirectory);
+            if (!initialDirectory.exists() || !initialDirectory.isDirectory()) {
+                initialDirectory = new File(System.getProperty("user.home"));
+            }
+            directoryChooser.setInitialDirectory(initialDirectory);
             selectedDirectory = directoryChooser.showDialog(new Stage());
             if (selectedDirectory != null) {
                 textPath.setText(selectedDirectory.getPath());
+                preferences.put("lastDirectory", selectedDirectory.getAbsolutePath());
             }
         });
 
