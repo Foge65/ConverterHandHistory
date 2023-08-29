@@ -44,7 +44,7 @@ public class GSheetsService {
     public static void getNicknames() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String sheetId = "1tB5CLOlx1vmyIB6pT3IgYe-qvnrIjq0BsQYsdgXkTZ4";
-        final String range = "GGnetwork!A2:E";
+        final String range = "_GGnetwork!A2:E";
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, GSheetsService.JSON_FACTORY,
                 GSheetsService.getCredential(HTTP_TRANSPORT)).setApplicationName(GSheetsService.APPLICATION).build();
         ValueRange response = service.spreadsheets().values().get(sheetId, range).execute();
