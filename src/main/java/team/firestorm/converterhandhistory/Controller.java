@@ -8,7 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import team.firestorm.converterhandhistory.ggpokerok.FileManager;
@@ -47,11 +49,20 @@ public class Controller implements Initializable {
         boxListNickname.getEditor().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
             String filter = boxListNickname.getEditor().getText();
             filterComboBoxItems(boxListNickname, filter);
+
+            if (event.getCode() == KeyCode.BACK_SPACE) {
+                boxListNickname.getSelectionModel().clearSelection();
+            }
         });
 
-        boxListNickname.getEditor().setOnMouseClicked(event -> {
-            boxListNickname.getEditor().setText("");
-            filterComboBoxItems(boxListNickname, "");
+        boxListNickname.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                if (!boxListNickname.isShowing()) {
+                    boxListNickname.getEditor().clear();
+                    boxListNickname.getSelectionModel().clearSelection();
+                    boxListNickname.show();
+                }
+            }
         });
 
         btnOpenFile.setOnAction(event -> {
