@@ -19,7 +19,10 @@ import team.firestorm.converterhandhistory.ggpokerok.TextOperator;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 public class Controller implements Initializable {
@@ -63,6 +66,7 @@ public class Controller implements Initializable {
         });
 
         btnOpenFile.setOnAction(event -> {
+            btnOpenFile.setDisable(true);
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Please, select a folder");
             Preferences preferences = Preferences.userNodeForPackage(getClass());
@@ -77,6 +81,7 @@ public class Controller implements Initializable {
                 textPath.setText(selectedDirectory.getPath());
                 preferences.put("lastDirectory", selectedDirectory.getAbsolutePath());
             }
+            btnOpenFile.setDisable(false);
         });
 
         btnConvert.setOnAction(event -> {
@@ -103,12 +108,21 @@ public class Controller implements Initializable {
                     }
                 }
                 for (File file : fileList) {
-                    List<String> stringList = fileManager.readFileHandHistory(file);
-                    textOperator.replaceWordWon(stringList);
-                    Roman.replaceNumber(stringList);
-                    textOperator.deleteStringDealt(stringList);
-                    textOperator.replaceNickname(stringList, nicknameGGPokerOK);
-                    fileManager.write(stringList, file, selectedDirectory);
+                    try {
+                        List<String> stringList = fileManager.readFileHandHistory(file);
+                        textOperator.replaceWordWon(stringList);
+                        Roman.replaceNumber(stringList);
+                        textOperator.deleteStringDealt(stringList);
+                        textOperator.replaceNickname(stringList, nicknameGGPokerOK);
+                        fileManager.write(stringList, file, selectedDirectory);
+                    } catch (IndexOutOfBoundsException e) {
+                        Alert error = new Alert(Alert.AlertType.ERROR);
+                        error.setTitle("Error");
+                        error.setHeaderText(null);
+                        error.setContentText("Error reading files. Please check their contents");
+                        error.showAndWait();
+                        throw new RuntimeException(e);
+                    }
                 }
                 Alert completeOperation = new Alert(Alert.AlertType.INFORMATION);
                 completeOperation.setTitle("Complete");
@@ -117,7 +131,6 @@ public class Controller implements Initializable {
                 completeOperation.showAndWait();
             }
         });
-
     }
 
     private void filterComboBoxItems(ComboBox<String> comboBox, String filter) {

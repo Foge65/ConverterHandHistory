@@ -26,7 +26,7 @@ public class FileManager {
         return file;
     }
 
-    public void saveMapToFile(Map<String, String> nicknames, File file) {
+    public void saveNicknameToFile(Map<String, String> nicknames, File file) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             for (Map.Entry<String, String> entry : nicknames.entrySet()) {
                 String key = entry.getKey();

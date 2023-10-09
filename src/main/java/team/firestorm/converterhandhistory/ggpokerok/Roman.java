@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Roman {
-    private static TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+    private static TreeMap<Integer, String> map = new TreeMap<>();
 
     static {
         map.put(1000, "M");

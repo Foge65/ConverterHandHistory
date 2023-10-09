@@ -34,9 +34,6 @@ public class FXMain extends Application {
         FileManager fileManager = new FileManager();
         fileManager.getNicknameConference(nicknameMap);
 
-//        File file = fileManager.createFile();
-//        fileManager.saveMapToFile(nicknameMap, file);
-
         FXMLLoader fxmlLoader = new FXMLLoader(FXMain.class.getResource("FXMLConfig.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("FireStorm Team GGPokerOK Hand History Converter");
