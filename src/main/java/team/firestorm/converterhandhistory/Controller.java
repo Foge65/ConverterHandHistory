@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -33,7 +34,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField textPath = new TextField();
 
-    private ObservableList<String> observableListNickname = FXCollections.observableArrayList(FileManager.getConferenceName());
+    private final ObservableList<String> observableListNickname = FXCollections.observableArrayList(FileManager.getConferenceName());
 
     @FXML
     private ComboBox<String> boxListNickname = new ComboBox<>(observableListNickname);
@@ -87,7 +88,7 @@ public class Controller implements Initializable {
         btnConvert.setOnAction(event -> {
             FileManager fileManager = new FileManager();
             TextOperator textOperator = new TextOperator();
-            if (boxListNickname.getEditor().getText() == "") {
+            if (Objects.equals(boxListNickname.getEditor().getText(), "")) {
                 Alert setNickname = new Alert(Alert.AlertType.INFORMATION);
                 setNickname.setTitle("Invalid nickname");
                 setNickname.setHeaderText(null);

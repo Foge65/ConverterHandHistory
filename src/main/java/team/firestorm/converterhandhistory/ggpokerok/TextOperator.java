@@ -27,14 +27,14 @@ public class TextOperator {
         List<String> filteredList = new ArrayList<>();
         for (String line : list) {
             Matcher matcher = pattern.matcher(line);
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
             while (matcher.find()) {
                 String word = matcher.group(1);
                 String replacement = line.replace(word, "collected");
-                matcher.appendReplacement(stringBuffer, replacement);
+                matcher.appendReplacement(stringBuilder, replacement);
             }
-            matcher.appendTail(stringBuffer);
-            filteredList.add(stringBuffer.toString());
+            matcher.appendTail(stringBuilder);
+            filteredList.add(stringBuilder.toString());
         }
         list.clear();
         list.addAll(filteredList);
@@ -45,14 +45,14 @@ public class TextOperator {
         List<String> filteredList = new ArrayList<>();
         for (String line : list) {
             Matcher matcher = pattern.matcher(line);
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
             while (matcher.find()) {
                 String hero = matcher.group(2);
                 String replacement = line.replace(hero, nickname);
-                matcher.appendReplacement(stringBuffer, replacement);
+                matcher.appendReplacement(stringBuilder, replacement);
             }
-            matcher.appendTail(stringBuffer);
-            filteredList.add(stringBuffer.toString());
+            matcher.appendTail(stringBuilder);
+            filteredList.add(stringBuilder.toString());
         }
         list.clear();
         list.addAll(filteredList);

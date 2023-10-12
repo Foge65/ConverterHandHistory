@@ -14,9 +14,16 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GSheetsService {
     public static final String APPLICATION = "HandHistoryConverter";
@@ -24,6 +31,18 @@ public class GSheetsService {
     public static final String TOKENS_DIRECTORY_PATH = "tokens";
     public static final String CREDENTIALS_FILE_PATH = "/oauth/credentials.json";
     public static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
+
+    private static Credential getCredential(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+        InputStream inputStream = GSheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        if (inputStream == null) {
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+        }
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets,
+                SCOPES).setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH))).setAccessType("offline").build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
 
     public List<List<Object>> getData() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -37,18 +56,6 @@ public class GSheetsService {
             System.out.println("Error");
         }
         return objectList;
-    }
-
-    private static Credential getCredential(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        InputStream inputStream = GSheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (inputStream == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inputStream));
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets,
-                SCOPES).setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH))).setAccessType("offline").build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
     public Map<String, String> createMap(List<List<Object>> listObjects) {

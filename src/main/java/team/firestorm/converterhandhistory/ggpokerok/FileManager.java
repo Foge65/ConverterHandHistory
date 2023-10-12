@@ -1,19 +1,29 @@
 package team.firestorm.converterhandhistory.ggpokerok;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileManager {
-    private static Set<String> conferenceName = new HashSet<>();
+    private static final Set<String> conferenceName = new HashSet<>();
 
     public static Set<String> getConferenceName() {
         return conferenceName;
     }
 
-    public File createFile() {
+    /*public File createFile() {
         File file = new File("1tB5CLOl");
         if (file.exists()) {
             file.delete();
@@ -37,22 +47,21 @@ public class FileManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public void getNicknameConference(Map<String, String> nicknames) {
         nicknames.forEach((k, v) -> conferenceName.add(k));
     }
 
     public List<File> getFilesFromDirectory(File directory) {
-        List<File> fileList = new ArrayList<>();
-        try {
-            Files.find(Paths.get(directory.toURI()), Integer.MAX_VALUE,
-                            (filePath, fileAttr) -> fileAttr.isRegularFile() && filePath.toString().toLowerCase().endsWith(".txt"))
-                    .forEach(filePath -> fileList.add(filePath.toFile()));
+        try (Stream<Path> fileStream = Files.walk(directory.toPath(), Integer.MAX_VALUE)) {
+            return fileStream
+                    .filter(filePath -> Files.isRegularFile(filePath) && filePath.toString().toLowerCase().endsWith(".txt"))
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return fileList;
     }
 
     public List<String> readFileHandHistory(File file) {

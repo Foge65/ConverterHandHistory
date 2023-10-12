@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Roman {
-    private static TreeMap<Integer, String> map = new TreeMap<>();
+    private static final TreeMap<Integer, String> map = new TreeMap<>();
 
     static {
         map.put(1000, "M");
@@ -30,14 +30,14 @@ public class Roman {
         List<String> filteredList = new ArrayList<>();
         for (String line : list) {
             Matcher matcher = pattern.matcher(line);
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
             while (matcher.find()) {
                 int number = Integer.parseInt(matcher.group(1));
                 String romanNumber = toRoman(number);
-                matcher.appendReplacement(stringBuffer, "Level " + romanNumber + " (");
+                matcher.appendReplacement(stringBuilder, "Level " + romanNumber + " (");
             }
-            matcher.appendTail(stringBuffer);
-            filteredList.add(stringBuffer.toString());
+            matcher.appendTail(stringBuilder);
+            filteredList.add(stringBuilder.toString());
         }
         list.clear();
         list.addAll(filteredList);
