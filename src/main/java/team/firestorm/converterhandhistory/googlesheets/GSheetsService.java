@@ -60,7 +60,7 @@ public class GSheetsService {
 
     public Map<String, String> createMap(List<List<Object>> listObjects) {
         Map<String, String> nicknameMap = new HashMap<>();
-        for (List row : listObjects) {
+        for (List<Object> row : listObjects) {
             if (row.size() >= 5) {
                 String nickConference = row.get(0).toString();
                 Object nickGG = row.get(4);
